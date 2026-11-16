@@ -8,12 +8,8 @@
 <section class="hero">
     <p class="eyebrow">WELCOME TO BLOGGER</p>
     <h1>Stories, ideas, and inspiration.</h1>
-    <p>
-        Explore the latest articles and share your own ideas.
-    </p>
-    <a href="{% url 'create_post' %}" class="btn btn-primary">
-        Create a Post
-    </a>
+    <p>Explore the latest articles and share your own ideas.</p>
+    <a href="{% url 'create_post' %}" class="btn btn-primary">Create a Post</a>
 </section>
 
 <section class="posts-section">
@@ -25,19 +21,37 @@
     <div class="posts-grid">
         {% for post in posts %}
             <article class="post-card">
+                <a
+                    href="{% url 'post_detail' post.pk %}"
+                    class="post-cover-link"
+                >
+                    <img
+                        src="{{ post.cover_url }}"
+                        alt="Cover image for {{ post.title }}"
+                        loading="lazy"
+                    >
+                </a>
+
                 <span class="post-label">ARTICLE</span>
 
-                <h3>{{ post.title }}</h3>
+                <h3>
+                    <a class="post-title-link" href="{% url 'post_detail' post.pk %}">
+                        {{ post.title }}
+                    </a>
+                </h3>
 
                 <div class="post-content">
-                    {{ post.content|linebreaks }}
+                    {{ post.content|truncatewords:35|linebreaks }}
                 </div>
+
+                <a class="post-read-more" href="{% url 'post_detail' post.pk %}">
+                    Read Full Post &rarr;
+                </a>
 
                 <div class="post-footer">
                     <time datetime="{{ post.published_at|date:'c' }}">
                         {{ post.published_at|date:"F j, Y" }}
-                        ·
-                        {{ post.published_at|time:"g:i A" }}
+                        · {{ post.published_at|time:"g:i A" }} KSA
                     </time>
                 </div>
             </article>
